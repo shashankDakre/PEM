@@ -1,0 +1,37 @@
+{% include "header.html" %}
+{% load static %}
+
+<div class="container card p-5 mb-5 mt-5">
+  {% if bookings %}
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Event Name</th>
+      <th scope="col">Date</th>
+      <th scope="col">Location</th>
+      <th scope="col">Event Catagory</th>
+      <th scope="col">Number of Tickets</th>
+      <th scope="col">Amount paid</th>
+      <th scope="col">Booked By</th>
+  </tr>
+</thead>
+<tbody>
+  {% for booking in bookings %}
+  <tr>
+      <th scope="row">{{booking.event.title}}</th>
+      <td>{{booking.event.event_date}}</td>
+      <td>{{booking.event.location}}</td>
+      <td>{{booking.event.category}}</td>
+      <td>{{booking.quantity}}</td>
+      <td>{{booking.total_price}}</td>
+      <td>{{booking.user.fullName}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No Record found</p>
+{% endif %}
+</div>
+
+{% include "footer.html" %}

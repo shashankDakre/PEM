@@ -1,0 +1,178 @@
+{% include "header.html" %}
+{% load static %}
+
+<!-- Title Section -->
+<h1 class="text-center my-4">Tech Events</h1>
+
+{% if events %}
+    <!-- Container for the event cards -->
+    <div class="container">
+        <input type="hidden" id="session" value="{{ request.session.id }}">
+        <div class="row">
+            {% for event in events %}
+            <!-- Hidden field for each event to store event id and total price -->
+            <input type="hidden" id="event_id_{{ event.id }}" value="{{ event.id }}">
+            <input type="hidden" id="total_price_{{ event.id }}" value="{{ event.total_price }}"> <!-- Dynamic total price for each event -->
+
+            <!-- Each event is placed in a responsive column -->
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-lg">
+                        <!-- Image Container -->
+                        <div class="card-img-container">
+                            <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
+                        </div>
+                        <div class="card-body">
+                            <!-- Event Title -->
+                            <h5 class="card-title">{{ event.title }}</h5>
+                            <!-- Shortened Event Description -->
+                            <p class="card-text">{{ event.description|slice:":150" }}...</p>
+                            <!-- Event Location -->
+                            <p class="card-text"><strong>Location:</strong> {{ event.location }}</p>
+                            <!-- Event Date -->
+                            <p class="card-text"><strong>Date:</strong> {{ event.event_date }}</p>
+
+                            <!-- Container for the ticket input and button -->
+                            <div class="d-flex justify-content-between align-items-center">
+                                <!-- Ticket Quantity (left side) -->
+                                <div class="ticket-input">
+                                    <a href="/update_quantity/{{ event.id }}/minus/tech/" class="btn btn-danger">-</a>
+                                    <label for="number_of_tickets_{{ event.id }}" class="form-label">Tickets</label>
+                                    <input type="number" class="form-control" id="number_of_tickets_{{ event.id }}" name="number_of_tickets" min="1" value="{{ event.quantity }}" data-price="{{ event.price }}" onchange="updateTotalPrice({{ event.id }})">
+                                    <a href="/update_quantity/{{ event.id }}/plus/tech/" class="btn btn-success">+</a>
+                                </div>
+
+                                <!-- Display Total Price -->
+                                <div class="total-price">
+                                    <p><strong>Total Price:</strong> <span id="total_price">{{ event.total_price }}</span></p>
+                                </div>
+
+                                <!-- Book Ticket Button (right side) -->
+                                <a class="btn btn-primary" id="rzp-button-{{ event.id }}">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% else %}
+    <p class="text-center">No Tech events available.</p>
+{% endif %}
+
+{% include "footer.html" %}
+
+<!-- Custom CSS to adjust the image and layout -->
+<style>
+    .card-img-container {
+        position: relative;
+        height: 200px; /* Fixed height for image container */
+        overflow: hidden; /* Ensures that excess image content is clipped */
+    }
+
+    .card-img-top {
+        width: 100%; /* Ensures the image spans the full width of the container */
+        height: 100%; /* Ensures the image spans the full height of the container */
+        object-fit: cover; /* Ensures the image covers the entire area while maintaining its aspect ratio */
+        object-position: center center; /* Centers the image within the container */
+    }
+
+    .card-body {
+        padding: 20px; /* Adds some padding to the card body */
+    }
+
+    .btn-block {
+        display: block; /* Ensures the button spans the full width of the card */
+    }
+
+    /* Custom styles for the ticket input and button layout */
+    .d-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .ticket-input {
+        width: 45%; /* Ensures the ticket input doesn't take too much space */
+    }
+
+    .btn-sm {
+        padding: 0.5rem 1rem;
+    }
+</style>
+
+<!-- JavaScript for Price Calculation and Redirect -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    // Loop through each button dynamically by event ID
+    document.querySelectorAll('[id^="rzp-button-"]').forEach(function(button) {
+        button.onclick = function (e) {
+            // Extract the event ID from the button's ID
+            let eventId = button.id.split('-')[2];  // Get event ID from button id like rzp-button-1
+            let payment = parseFloat(document.getElementById('total_price_' + eventId).value); // Get the total price for this event
+            
+            // Ensure that the payment amount is valid
+            if (isNaN(payment) || payment <= 0) {
+                alert("Invalid payment amount.");
+                return;
+            }
+
+            let session = document.getElementById('session').value;
+
+            var options = {
+                "key": "rzp_test_a8OmF04Ppiwsc6", // Razorpay Key ID
+                "amount": payment * 100,  // Convert INR to paise (multiply by 100)
+                "currency": "INR",  // Currency set to INR
+                "description": "Tech Event Ticket Booking", // Description of the payment
+                "image": "example.com/image/rzp.jpg", // Custom image or logo for Razorpay modal
+                "prefill": {
+                    "email": "dakreshashank@gmail.com", // Prefilled user email
+                    "contact": "+917030871210", // Prefilled user contact number
+                },
+                "config": {
+                    "display": {
+                        "blocks": {
+                            "utib": { // Block for Axis Bank payment method
+                                "name": "Pay Using Axis Bank",
+                                "instruments": [
+                                    { "method": "card", "issuers": ["UTIB"] },
+                                    { "method": "netbanking", "banks": ["UTIB"] }
+                                ]
+                            },
+                            "other": { // Other payment methods block
+                                "name": "Other Payment Methods",
+                                "instruments": [
+                                    { "method": "card", "issuers": ["ICIC"] },
+                                    { "method": "netbanking" }
+                                ]
+                            }
+                        },
+                        "hide": [
+                            { "method": "upi" } // Optionally hide UPI block
+                        ],
+                        "sequence": ["block.utib", "block.other"],
+                        "preferences": {
+                            "show_default_blocks": false // Hide default blocks
+                        }
+                    }
+                },
+                "handler": function (response) {
+                    // Redirect to the success page after payment success with payment ID
+                    window.location.href = `http://localhost:8000/success/${payment}/${eventId}/${response.razorpay_payment_id}/${session}/`;
+                },
+                "modal": {
+                    "ondismiss": function () {
+                        if (confirm("Are you sure you want to close the form?")) {
+                            console.log("Checkout form closed by the user.");
+                        } else {
+                            console.log("Complete the Payment");
+                        }
+                    }
+                }
+            };
+
+            var rzp = new Razorpay(options); // Create the Razorpay instance
+            rzp.open(); // Open the Razorpay checkout form
+            e.preventDefault(); // Prevent default anchor behavior
+        }
+    });
+</script>

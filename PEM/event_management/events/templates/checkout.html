@@ -1,0 +1,32 @@
+{% include 'header.html' %}
+{% load static %}
+
+<div id="checkout" class="container mt-5">
+    <h2 class="text-center mb-4 text-primary">Checkout</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Confirm Your Ticket Purchase</h4>
+                </div>
+                <div class="card-body">
+                    <h5>Event: {{ event.title }}</h5>
+                    <p><strong>Date:</strong> {{ event.event_date }}</p>
+                    <p><strong>Location:</strong> {{ event.location }}</p>
+                    <p><strong>Description:</strong> {{ event.description }}</p>
+                    <p><strong>Ticket Price:</strong> ${{ event.price }}</p>
+                    <p><strong>Quantity:</strong> {{ quantity }}</p>
+                    <p><strong>Total Price:</strong> ${{ total_price }}</p>
+
+                    <!-- Confirm Button -->
+                    <form method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-lg w-100 mt-4">Confirm Purchase</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'footer.html' %}

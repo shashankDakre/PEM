@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>आयोजन</title>
+
+    <!-- Add the favicon link here -->
+    <link rel="icon" href="{% static '/WhatsApp Image 2024-11-16 at 00.48.18_b4951782.jpg' %}" type="image/jpg">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+      /* Full screen background with blur for the secondary image */
+      .vh-100 {
+        position: relative;
+        height: 100vh;
+        background-image: url("https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+      }
+
+      /* Dark overlay on top of the blurred background */
+      .blurred-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+        filter: blur(10px); /* Applying blur */
+        z-index: 0;
+      }
+
+      /* Container for content */
+      .container {
+        position: relative;
+        z-index: 1;
+        max-width: 1200px; /* Increased width for larger card */
+      }
+
+      /* Card style */
+      .card {
+        border-radius: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        padding: 40px;
+        margin-top: 50px;
+        display: flex;
+        flex-direction: row; /* To display image and form side by side */
+        min-height: 500px; /* Increased height for a rectangular card */
+        justify-content: center;
+      }
+
+      /* Aligning the logo and title */
+      .card-body {
+        padding: 2rem;
+        text-align: center;
+        width: 150%;
+      }
+
+      .form-center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .form-label {
+        font-weight: 500;
+      }
+
+      .btn-dark {
+        background-color: #393f81;
+        border: none;
+        font-size: 18px;
+        padding: 10px 20px;
+        width: 100%;
+      }
+
+      .btn-dark:hover {
+        background-color: #2d3561;
+      }
+
+      /* Form input fields */
+      .form-outline {
+        margin-bottom: 20px;
+      }
+
+      .form-outline input {
+        padding: 20px; /* Increased padding for larger input area */
+        font-size: 18px; /* Increased font size */
+        border-radius: 8px; /* Added rounded corners to input */
+        width: 100%; /* Input stretches horizontally to take up the full available width */
+      }
+
+      /* Styling the image */
+      .card .col-md-6 img {
+        border-radius: 1rem 0 0 1rem;
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+      }
+
+      /* Mobile responsiveness */
+      @media (max-width: 768px) {
+        .container {
+          max-width: 90%;
+        }
+
+        .card {
+          flex-direction: column; /* Stack the image and form on top of each other */
+        }
+
+        .card-body {
+          width: 100%; /* Ensure the form takes full width */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="vh-100">
+      <!-- Background Image with blur effect -->
+      <div class="blurred-background"></div>
+      
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-12 col-md-8 col-lg-10">
+            <div class="card text-black">
+              <div class="row g-0">
+                <!-- Image Section -->
+                <div class="col-md-6 col-lg-6 d-none d-md-block">
+                  <img src="{% static 'wedding-planner-concept-illustration_114360-2720.jpg' %}" alt="login image" class="img-fluid" />
+                </div>
+                
+                <!-- Form Section -->
+                <div class="col-md-6 col-lg-6 d-flex align-items-center">
+                  <div class="card-body">
+                    <div class="form-center">
+                      <!-- Branding Logo -->
+                      <img src="{% static '/WhatsApp Image 2024-11-14 at 23.30.03_3c8415be.jpg' %}" alt="Logo" class="img-fluid mb-4" style="max-width: 180px;">
+                       <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Login into your account</h5>
+
+                      <!-- Login Form -->
+                      <form action="/login/" method="POST">
+                        {% csrf_token %}
+
+                        <!-- Email -->
+                        <div class="form-outline mb-4">
+                          <input type="email" id="form2Example17" name="Email" class="form-control form-control-lg" required />
+                          <label class="form-label" for="form2Example17">Email address</label>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-outline mb-4">
+                          <input type="password" id="form2Example27" name="password" class="form-control form-control-lg" required />
+                          <label class="form-label" for="form2Example27">Password</label>
+                        </div>
+
+                        <!-- Login Button -->
+                        <div class="pt-1 mb-4">
+                          <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
+                        </div>
+
+                        <!-- Registration Link -->
+                        <p class="mb-5 pb-lg-2" style="color: #393f81;">
+                          Don't have an account? <a href="/signup/" style="color: #393f81;">Register here</a>
+                        </p>
+                      </form>
+                    </div>
+                  </div>
+                </div> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

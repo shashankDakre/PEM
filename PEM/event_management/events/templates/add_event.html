@@ -1,0 +1,67 @@
+<!-- add_event.html -->
+{% include 'header.html' %}
+{% load static %}
+
+<div id="addEvent" class="container mt-5">
+  <h2 class="text-center mb-4 text-primary">Add Your Event</h2>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-lg">
+        <div class="card-header bg-success text-white">
+          <h4 class="mb-0">Event Submission Form</h4>
+        </div>
+        <div class="card-body">
+          <form enctype="multipart/form-data" method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="eventTitle" class="form-label">Event Title</label>
+              <input type="text" class="form-control form-control-lg" id="eventTitle" name="title" placeholder="Enter event title" required />
+            </div>
+
+            <div class="mb-3">
+              <label for="eventDate" class="form-label">Event Date</label>
+              <input type="date" class="form-control form-control-lg" id="eventDate" name="event_date" required />
+            </div>
+
+            <div class="mb-3">
+              <label for="eventLocation" class="form-label">Location</label>
+              <input type="text" class="form-control form-control-lg" id="eventLocation" name="location" required />
+            </div>
+
+            <div class="mb-3">
+              <label for="eventDescription" class="form-label">Event Description</label>
+              <textarea class="form-control form-control-lg" id="eventDescription" name="description" rows="5" placeholder="Describe your event" required></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="eventImage" class="form-label">Event Image</label>
+              <input type="file" class="form-control form-control-lg" id="eventImage" name="image" accept="image/*" required />
+            </div>
+
+            <div class="form-group">
+              <label for="ticket_price">Ticket Price</label>
+              <input type="number" class="form-control" id="ticket_price" name="ticket_price" step="0.01" min="0" required>
+          </div>
+
+            <div class="mb-3">
+              <label for="eventCategory" class="form-label">Event Category</label>
+              <select class="form-control form-control-lg" id="eventCategory" name="category" required>
+                <option value="" disabled selected>Select Category</option>
+                <option value="Technology">Technology</option>
+                <option value="Music">Music</option>
+                <option value="Sports">Sports</option>
+                <option value="Food">Food</option>
+                <option value="Fashion">Fashion</option>
+                <option value="Workshop">Workshop</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-success btn-lg w-100 mt-4">Submit Event</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include 'footer.html' %}

@@ -1,0 +1,89 @@
+{% include "header.html" %}
+{% load static %}
+<!-- Hero Section -->
+<div class="hero">
+  <h1>आयोजन - Your Event Booking Platform</h1>
+  <p>Organize and attend amazing events effortlessly.</p>
+  {% if request.session.host_id %}
+  <a href="/add_event/" class="btn btn-primary">Add Your Event</a>
+  {% endif %}
+</div>
+
+<!-- Main Content -->
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Upcoming Events</h2>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card event-card mb-4">
+        <img src="{% static '/teemu-paananen-bzdhc5b3Bxs-unsplash.jpg' %}" class="card-img-top" alt="Tech Conference">
+        <div class="card-body">
+          <h5 class="card-title event-card-title">Tech Conference 2024</h5>
+          <p class="card-text event-card-text">Join us for an exciting conference on the latest in technology and innovation.</p>
+          <a href="/events/" class="btn btn-primary">Explore More</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card event-card mb-4">
+        <img src="{% static '/eric-ward-uD0W-swVGgE-unsplash.jpg' %}" class="card-img-top" alt="Music Festival">
+        <div class="card-body">
+          <h5 class="card-title event-card-title">Summer Music Festival</h5>
+          <p class="card-text event-card-text">Enjoy live music performances from top artists at our annual summer festival.</p>
+          <a href="/events/" class="btn btn-primary">Explore More</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card event-card mb-4">
+        <img src="{% static '/unseen-studio-s9CC2SKySJM-unsplash.jpg' %}" class="card-img-top" alt="Creative Workshop">
+        <div class="card-body">
+          <h5 class="card-title event-card-title">Creative Workshop</h5>
+          <p class="card-text event-card-text">A hands-on workshop to help you sharpen your skills and unleash your creativity.</p>
+          <a href="/events/" class="btn btn-primary">Explore More</a>
+        </div>
+      </div>
+    </div>
+    <!-- Add more events -->
+    <div class="col-md-4">
+      <div class="card event-card mb-4">
+        <img src="{% static 'edoardo-busti-eFudRVp6mhg-unsplash.jpg' %}" class="card-img-top" alt="Sports Event">
+        <div class="card-body">
+          <h5 class="card-title event-card-title">Sports Championship</h5>
+          <p class="card-text event-card-text">Get ready for an action-packed event with various sports competitions and games.</p>
+          <a href="/events/" class="btn btn-primary">Explore More</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card event-card mb-4">
+        <img src="{% static '/stefano-girardelli-qUnLMCQjv2k-unsplash.jpg' %}" class="card-img-top" alt="Food Festival">
+        <div class="card-body">
+          <h5 class="card-title event-card-title">Food Festival</h5>
+          <p class="card-text event-card-text">Taste flavors from around the India at our vibrant food festival.</p>
+          <a href="/events/" class="btn btn-primary">Explore More</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card event-card mb-4">
+        <img src="{% static '/yogendra-singh-C4XXBa1ZQWI-unsplash.jpg' %}" class="card-img-top" alt="Fashion Show">
+        <div class="card-body">
+          <h5 class="card-title event-card-title">Fashion Show</h5>
+          <p class="card-text event-card-text">Witness the latest trends and designs at the most awaited fashion event of the year.</p>
+          <a href="/events/" class="btn btn-primary">Explore More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center"> 
+    <a href="/events/"> 
+      <button type="submit" class="btn btn-outline-primary">More Events</button> 
+    </a> 
+  </div>
+</div>
+
+<br>
+<br>
+<br>
+
+{% include "footer.html" %}
